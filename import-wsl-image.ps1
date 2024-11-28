@@ -22,6 +22,7 @@ param (
     [string]$InstanceName,
 
     [Parameter(Mandatory=$true)]
+    [Validatescript({Test-Path (join-path G:\WSL\ $_)})]
     [string]$TarFileName
 )
 
@@ -39,25 +40,25 @@ function Get-WSLInstance {
 
 # Check if the WSL instance exists
 if (Get-WSLInstance) {
-    Write-Output "WSL instance '$InstanceName' exists."
+    Write-Verbose "WSL instance '$InstanceName' exists."
 
     # Terminate the instance if it's running
-    Write-Output "Checking if '$InstanceName' is running..."
+    Write-Verbose "Checking if '$InstanceName' is running..."
     $runningInstances = wsl --list --verbose | Select-String "Running"
     if ($runningInstances -match $InstanceName) {
-        Write-Output "Instance '$InstanceName' is running. Terminating it..."
+        Write-Verbose "Instance '$InstanceName' is running. Terminating it..."
         wsl --terminate $InstanceName
-        Write-Output "Instance '$InstanceName' terminated."
+        Write-Verbose "Instance '$InstanceName' terminated."
     } else {
-        Write-Output "Instance '$InstanceName' is not running."
+        Write-Verbose "Instance '$InstanceName' is not running."
     }
 
     # Unregister the instance
-    Write-Output "Unregistering WSL instance '$InstanceName'..."
-    wsl --unregister $InstanceName
-    Write-Output "Instance '$InstanceName' unregistered."
+    Write-Verbose "Unregistering WSL instance '$InstanceName'..."
+    wsl --unregister $InstanceName | Out-Null
+    Write-Verbose "Instance '$InstanceName' unregistered."
 } else {
-    Write-Output "WSL instance '$InstanceName' does not exist."
+    Write-Verbose "WSL instance '$InstanceName' does not exist."
 }
 
 # Check if the tar file exists in the base path
@@ -67,8 +68,8 @@ if (-Not (Test-Path $TarFilePath)) {
 }
 
 # Import the new instance
-Write-Output "Importing WSL instance '$InstanceName' from '$TarFilePath'..."
+Write-Verbose "Importing WSL instance '$InstanceName' from '$TarFilePath'..."
 $ImportPath = "G:\WSL\$InstanceName"
-wsl --import $InstanceName $ImportPath $TarFilePath
-Write-Output "WSL instance '$InstanceName' successfully imported from '$TarFilePath'."
+wsl --import $InstanceName $ImportPath $TarFilePath | Out-Null
+Write-Verbose "WSL instance '$InstanceName' successfully imported from '$TarFilePath'."
 wsl --list --verbose
