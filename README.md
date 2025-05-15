@@ -1,6 +1,6 @@
 # ManageWSLInstance.ps1
 
-PowerShell script to manage Windows Subsystem for Linux (WSL) instances by unregistering existing ones and importing them from a `.tar` backup.
+PowerShell script to manage Windows Subsystem for Linux (WSL) instances.
 
 ---
 
