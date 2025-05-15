@@ -1,7 +1,20 @@
-This script accepts a WSL instance name and a tar filename as parameters. It terminates the instance if running, unregisters it, and then imports the tar file from a hardcoded base path as a new WSL instance.
+# ManageWSLInstance.ps1
 
-PARAMETER InstanceName - The name of the WSL instance to manage.
-PARAMETER TarFileName - The name of the tar backup file (without path). This must be created manually or through automation and needs to exists.
+PowerShell script to manage Windows Subsystem for Linux (WSL) instances by unregistering existing ones and importing them from a `.tar` backup.
 
-EXAMPLE:
-.\ManageWSLInstance.ps1 -InstanceName "Learn-React" -TarFileName "Ubuntu.tar"
+---
+
+## 📋 Overview
+
+This script automates the following WSL tasks:
+
+- Terminates a running WSL instance
+- Unregisters an existing WSL instance
+- Imports a `.tar` backup as a fresh WSL instance
+
+---
+
+## 🚀 Usage
+
+```powershell
+.\ManageWSLInstance.ps1 -InstanceName "MyDistro" -TarFileName "UbuntuBackup.tar"
